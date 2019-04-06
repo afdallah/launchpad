@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="main.css">
+  <title>Launchpad</title>
+</head>
+<body>
+  <div class="launchpad" data-tilt>
+    <div class="launchpad__grid">
+      <div class="launchpad__btn" data-key="49" data-tooltip="Wow"><span>1</span></div>
+      <div class="launchpad__btn" data-key="50" data-tooltip="Yaaay"><span>2</span></div>
+      <div class="launchpad__btn" data-key="51" data-tooltip="Ting"><span>3</span></div>
+      <div class="launchpad__btn" data-key="52" data-tooltip="Suspense 1"><span>4</span></div>
+      <div class="launchpad__btn" data-key="53" data-tooltip="Suspense 2"><span>5</span></div>
+      <div class="launchpad__btn" data-key="54" data-tooltip="Batman"><span>6</span></div>
+      <div class="launchpad__btn" data-key="55" data-tooltip="Sad music"><span>7</span></div>
+      <div class="launchpad__btn" data-key="56" data-tooltip="Illuminati"><span>8</span></div>
+      <div class="launchpad__btn" data-key="57" data-tooltip="Kick"><span>9</span></div>
+    </div>
+
+    <div class="launchpad__control">
+      <div class="switch">
+        <input type="checkbox" name="toggle" data-js="simulatnous">
+        <label for="toggle"><i></i></label>
+        <span></span>
+      </div>
+      <div class="launchpad__label">Simultanous</div>
+    </div>
+  </div>
+
+  <audio data-key="49" src="./sound/Anime_Wow_Sound.oga"></audio>
+  <audio data-key="50" src="./sound/kids-shouting-yay-sound-effect-XfUWOAjP.mp3"></audio>
+  <audio data-key="51" src="./sound/Ding Sound Effect.mp3"></audio>
+  <audio data-key="52" src="./sound/Suspense 6.wav"></audio>
+  <audio data-key="53" src="./sound/Suspense 7.wav"></audio>
+  <audio data-key="54" src="./sound/Batman Transition Sound Effect.mp3"></audio>
+  <audio data-key="55" src="./sound/Sad Violin Airhorn.mp3"></audio>
+  <audio data-key="56" src="./sound/ILLUMINATI CONFIRMED.wav"></audio>
+  <audio data-key="57" src="./sound/Punch Sound Effect.mp3"></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.6.1/vanilla-tilt.min.js"></script>
+  <script>
+    let sSwitch = document.querySelector('[data-js="simulatnous"]')
+    let simultanous = false
+    sSwitch.addEventListener('change', function (e) {
+      simultanous = sSwitch.checked
+    })
+
+    function playSound(e) {
+      console.log(simultanous)
+      let audio
+      let key
+      let audios = Array.from(document.querySelectorAll('audio'))
+
+      if (e.constructor.name === 'MouseEvent' || e.constructor.name === 'TouchEvent') {
+        audio = document.querySelector(`audio[data-key="${e.target.closest('.launchpad__btn').getAttribute('data-key')}"]`)
+        key  = e.target.closest('.launchpad__btn')
+      } else {
+        audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+        key  = document.querySelector(`.launchpad__btn[data-key="${e.keyCode}"]`)
+      }
+
+      if (!key) return
+      if (!audio) return
+
+      if (!simultanous) {
+        audios.map(audio => audio.pause())
+      }
+
+      audio.currentTime = 0
+      audio.play()
+      key.classList.add('playing')
+    }
+
+    function removeTransition (e) {
+      // if (e.propertyName !== 'transform') return
+      e.target.classList.remove('playing')
+    }
+
+    const keys = Array.from(document.querySelectorAll('.launchpad__btn'));
+
+    window.addEventListener('keydown', playSound)
+    keys.map(key => {
+      key.addEventListener('transitionend', removeTransition)
+      key.addEventListener('click', playSound)
+    })
+  </script>
+</body>
+</html>
