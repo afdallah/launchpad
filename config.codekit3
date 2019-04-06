@@ -9,6 +9,25 @@
 	],
 "creatorBuild": "29156",
 "files": {
+	"/.gitignore": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/.gitignore",
+		"oF": 0
+		},
+	"/img/thumb.png": {
+		"ft": 32768,
+		"iS": 44050,
+		"oA": 0,
+		"oAP": "/img/thumb.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
 	"/index.html": {
 		"cB": 0,
 		"ft": 8192,
